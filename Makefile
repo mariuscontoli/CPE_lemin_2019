@@ -1,38 +1,41 @@
 ##
-## EPITECH PROJECT, 2019
-## Working Makefile
-## File description:
+## EPITECH PROJECT, 2020
 ## Makefile
+## File description:
+## makefile for executable
 ##
 
-NAME	= 	lem_in
+CC =	gcc
 
-NAME2	=	a
+NAME =		lem_in
 
-SRC	=	./src/main.c\
-		./src/usefull.c\
-		./src/set.c\
+SRC =		src/lemin.c\
+			src/get_next_line.c\
+			src/utils.c\
+			my_printf/my_printf.c\
+			my_printf/print_chars.c\
+			my_printf/print_ints.c\
+			my_printf/print_ints2.c\
+			my_printf/utils.c\
+			my_printf/utils2.c\
 
-OBJS	=	$(SRC:.c=.o)
-
-CFLAGS =	-g3 -W -Wextra -I ./include
+OBJ =		$(SRC:.=.o)
 
 all : $(NAME)
 
-$(NAME):	$(OBJS)
-			gcc -o $(NAME) $(OBJS) $(CFLAGS) -g
+%.o: %.c
+		$(CC) -o $@ -c $<
 
-$(NAME2):	$(OBJS)
-			gcc -o $(NAME2) $(OBJS) $(CFLAGS) -g
+$(NAME): $(OBJ)
+		$(CC) -o $@ $^ -lm
 
 clean:
-		rm -f $(OBJS)
+		rm -rf src/*.o
+		rm -rf my_printf/*.o
 
 fclean: clean
 		rm -f $(NAME)
-		rm -f $(NAME2)
 
 re: fclean all
 
-wh:	$(NAME2)
-	rm -f $(OBJS)
+.PHONY: all test clean
