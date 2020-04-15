@@ -10,6 +10,8 @@
 char *get_line(char *pos)
 {
     pos = get_next_line(0);
+    if (pos && skipper(pos) == 1)
+        pos = get_line(pos);
     return pos;
 }
 
@@ -34,6 +36,7 @@ int is_line_numeric(char *str)
 int how_many_ants(lemin_t *lemin, char *pos)
 {
     int number = 0;
+    my_printf("#number_of_ants\n");
     if (is_line_numeric(pos) != 1)
         return 84;
     number = my_getnbr(pos);
@@ -43,6 +46,7 @@ int how_many_ants(lemin_t *lemin, char *pos)
         return 84;
     }
     lemin->map[lemin->i] = my_strdup(pos);
+    my_printf("%s\n", lemin->map[lemin->i]);
     lemin->i += 1;
     return 0;
 }
@@ -54,6 +58,11 @@ int check_if_end(lemin_t *lemin, char *pos)
         lemin->int_end = 1;
         lemin->rooms += 1;
         lemin->map[lemin->i] = my_strdup(pos);
+        if (lemin->print_room == 1) {
+            my_printf("#rooms\n");
+            lemin->print_room = 0;
+        }
+        my_printf("%s\n", lemin->map[lemin->i]);
         return 1;
     }
     if (lemin->next_is_end == 1) {
@@ -72,6 +81,11 @@ int check_if_start(lemin_t *lemin, char *pos)
         lemin->int_start = 1;
         lemin->rooms += 1;
         lemin->map[lemin->i] = my_strdup(pos);
+        if (lemin->print_room == 1) {
+            my_printf("#rooms\n");
+            lemin->print_room = 0;
+        }
+        my_printf("%s\n", lemin->map[lemin->i]);
         return 1;
     }
     if (lemin->next_is_start == 1) {
@@ -96,16 +110,7 @@ int check_if_start_end(lemin_t *lemin, char *pos)
 
 int is_start_and_end(lemin_t *lemin)
 {
-    if (lemin->int_start != 1 && lemin->int_end != 1) {
-        my_printf("ERROR: start and end room are missing.\n");
-        return 84;
-    }
-    if (lemin->int_start != 1) {
-        my_printf("ERROR: start room is missing.\n");
-        return 84;
-    }
-    if (lemin->int_end != 1) {
-        my_printf("ERROR: end room is missing.\n");
+    if (lemin->int_start != 1 || lemin->int_end != 1) {
         return 84;
     }
     return 0;
@@ -137,6 +142,7 @@ char *parse_tunnel(lemin_t *lemin, char *pos)
     if (get_disp_line(pos, name2) == 84)
         return NULL;
     lemin->map[lemin->i] = my_strdup(name2);
+    my_printf("%s\n", lemin->map[lemin->i]);
     lemin->tunnels += 1;
     return "good";
 }
@@ -188,9 +194,9 @@ char *parse_room(lemin_t *lemin, char *pos)
         return NULL;
     if (my_strlen(name) != 0) {
         lemin->map[lemin->i] = my_strdup(line);
+        my_printf("%s\n", lemin->map[lemin->i]);
         lemin->rooms += 1;
     }
-    // A FAIRE : FONCTION QUI PARSE UNE ROOM DANS UNE LISTE CHAINEE ROOM //
     return "good";
 }
 
@@ -236,7 +242,7 @@ int skipper(char *pos)
 
 int parsing_map(lemin_t *lemin)
 {
-    char *pos = get_line(pos);
+    char *pos = get_line(pos) ;
     if (pos == NULL)
         return 84;
     if (how_many_ants(lemin, pos) == 84)
@@ -245,8 +251,6 @@ int parsing_map(lemin_t *lemin)
         pos = get_line(pos);
         if (pos == NULL)
             break;
-        if (skipper(pos) == 1)
-            continue;
         if (check_if_start_end(lemin, pos) == 84)
             return 84;
         if (parsing_rooms(lemin, pos) == 84)
@@ -272,18 +276,17 @@ void init_lemin(lemin_t *lemin)
     lemin->start = NULL;
     lemin->tunnels = 0;
     lemin->map = malloc(sizeof(char *) * 1000);
+    lemin->print_room = 1;
 }
 
 void print_ants(lemin_t *lemin)
 {
-    my_printf("#number_of_ants\n");
     my_printf("%s\n", lemin->map[0]);
 }
 
 void print_rooms(lemin_t *lemin)
 {
     int i = 1;
-    my_printf("#rooms\n");
     for (; i != (lemin->rooms + 1); i++) {
         my_printf("%s\n", lemin->map[i]);
     }
@@ -303,7 +306,7 @@ void print_tunnels(lemin_t *lemin)
 void print_map(lemin_t *lemin)
 {
     print_ants(lemin);
-    print_rooms(lemin);
+    //print_rooms(lemin);
     print_tunnels(lemin);
 }
 

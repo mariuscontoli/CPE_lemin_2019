@@ -33,6 +33,7 @@ typedef struct lemin
     int next_is_start;
     int next_is_end;
     int i;
+    int print_room;
 } lemin_t;
 
 char *get_next_line(const int fd);
