@@ -214,6 +214,10 @@ int what_room(lemin_t *lemin, char *pos)
     if (lemin->next_is_end == 1 || lemin->next_is_start == 1)
         return 0;
     if (is_room_tunnel(pos) == 1) {
+        if (lemin->print_tunnel == 1) {
+            my_printf("#tunnels\n");
+            lemin->print_tunnel = 0;
+        }
         if (parse_tunnel(lemin, pos) == NULL)
             return 84;
     } else {
@@ -277,37 +281,18 @@ void init_lemin(lemin_t *lemin)
     lemin->tunnels = 0;
     lemin->map = malloc(sizeof(char *) * 1000);
     lemin->print_room = 1;
-}
-
-void print_ants(lemin_t *lemin)
-{
-    my_printf("%s\n", lemin->map[0]);
-}
-
-void print_rooms(lemin_t *lemin)
-{
-    int i = 1;
-    for (; i != (lemin->rooms + 1); i++) {
-        my_printf("%s\n", lemin->map[i]);
-    }
+    lemin->print_tunnel = 1;
 }
 
 void print_tunnels(lemin_t *lemin)
 {
     int i = lemin->rooms + 1;
     int y = 0;
-    my_printf("#tunnels\n");
+    
     for (; y != lemin->tunnels; y++) {
         my_printf("%s\n", lemin->map[i]);
         i++;
     }
-}
-
-void print_map(lemin_t *lemin)
-{
-    print_ants(lemin);
-    //print_rooms(lemin);
-    print_tunnels(lemin);
 }
 
 int main(int ac)
@@ -320,6 +305,5 @@ int main(int ac)
     init_lemin(lemin);
     if (parsing_map(lemin) == 84)
         return 84;
-    print_map(lemin);
     return (0);
 }
