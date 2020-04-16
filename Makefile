@@ -18,6 +18,7 @@ SRC =		src/main.c\
 			src/parse.c\
 			src/get_next_line.c\
 			src/utils.c\
+			src/utils2.c\
 			my_printf/my_printf.c\
 			my_printf/print_chars.c\
 			my_printf/print_ints.c\

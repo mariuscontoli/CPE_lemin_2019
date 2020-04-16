@@ -37,8 +37,10 @@ typedef struct lemin
     int print_tunnel;
 } lemin_t;
 
+static char *my_realloc(char *str, int index, int *static_begin, char *buffer);
 char *get_next_line(const int fd);
 char *get_line(char *pos);
+char *my_strncpy(char *dest, char const *src, int n);
 int my_strlen(char const *str);
 int my_strlen_name(char const *str);
 int my_strlen_line(char const *str);
@@ -61,7 +63,7 @@ int is_start_and_end(lemin_t *lemin);
 int check_if_start_end(lemin_t *lemin, char *pos);
 int check_if_start(lemin_t *lemin, char *pos);
 int check_if_end(lemin_t *lemin, char *pos);
-int parsing_map(lemin_t *lemin);
+int parsing_file(lemin_t *lemin);
 char *my_strdup(char const *src);
 char *parse_room(lemin_t *lemin, char *pos);
 char *parse_tunnel(lemin_t *lemin, char *pos);
