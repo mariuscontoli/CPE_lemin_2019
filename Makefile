@@ -9,7 +9,13 @@ CC =	gcc
 
 NAME =		lem_in
 
-SRC =		src/lemin.c\
+SRC =		src/main.c\
+			src/is.c\
+			src/get.c\
+			src/ants.c\
+			src/init.c\
+			src/check.c\
+			src/parse.c\
 			src/get_next_line.c\
 			src/utils.c\
 			my_printf/my_printf.c\

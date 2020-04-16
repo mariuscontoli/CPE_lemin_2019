@@ -53,7 +53,7 @@ int is_room_tunnel(char *pos);
 int is_enough_spaces(char *pos);
 int is_line_numeric(char *str);
 int is_printable(char c);
-int skipper(char *pos);
+int is_skipper(char *pos);
 int how_many_ants(lemin_t *lemin, char *pos);
 int what_room(lemin_t *lemin, char *pos);
 int parsing_rooms(lemin_t *lemin, char *pos);
@@ -65,5 +65,6 @@ int parsing_map(lemin_t *lemin);
 char *my_strdup(char const *src);
 char *parse_room(lemin_t *lemin, char *pos);
 char *parse_tunnel(lemin_t *lemin, char *pos);
+void init_lemin(lemin_t *lemin);
 
 #endif /* !LEMIN_H_ */
