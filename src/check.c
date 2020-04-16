@@ -9,6 +9,8 @@
 
 int check_if_end(lemin_t *lemin, char *pos)
 {
+    if (my_strcmp(pos, "##end") == 0 && lemin->next_is_end == 3)
+        return 84;
     if (my_strcmp(pos, "##end") == 0) {
         lemin->next_is_end = 1;
         lemin->int_end = 1;
@@ -23,7 +25,7 @@ int check_if_end(lemin_t *lemin, char *pos)
     }
     if (lemin->next_is_end == 1) {
         lemin->end = pos;
-        lemin->next_is_end = 0;
+        lemin->next_is_end = 3;
         if (lemin->end == NULL)
             return 84;
     }
@@ -32,6 +34,8 @@ int check_if_end(lemin_t *lemin, char *pos)
 
 int check_if_start(lemin_t *lemin, char *pos)
 {
+    if (my_strcmp(pos, "##start") == 0 && lemin->next_is_start == 3)
+        return 84;
     if (my_strcmp(pos, "##start") == 0) {
         lemin->next_is_start = 1;
         lemin->int_start = 1;
@@ -46,7 +50,7 @@ int check_if_start(lemin_t *lemin, char *pos)
     }
     if (lemin->next_is_start == 1) {
         lemin->start = pos;
-        lemin->next_is_start = 0;
+        lemin->next_is_start = 3;
         if (lemin->start == NULL)
             return 84;
     }
