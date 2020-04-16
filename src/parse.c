@@ -35,9 +35,6 @@ char *parse_room(lemin_t *lemin, char *pos)
     size2 = my_strlen(pos);
     name = malloc(sizeof(char) * size1 + 1);
     line = malloc(sizeof(char) * size2 + 1);
-    if (is_enough_spaces(pos) == 84) {
-        return NULL;
-    }
     if (get_name(pos, name, ' ') == 84)
         return NULL;
     if (get_disp_line(pos, line) == 84)
@@ -62,6 +59,8 @@ int what_room(lemin_t *lemin, char *pos)
         if (parse_tunnel(lemin, pos) == NULL)
             return 84;
     } else {
+        if (is_enough_spaces(pos) == 84)
+            return 84;
         if (parse_room(lemin, pos) == NULL)
             return 84;
     }
