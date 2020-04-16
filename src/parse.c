@@ -36,7 +36,6 @@ char *parse_room(lemin_t *lemin, char *pos)
     name = malloc(sizeof(char) * size1 + 1);
     line = malloc(sizeof(char) * size2 + 1);
     if (is_enough_spaces(pos) == 84) {
-        my_printf("NO ENOUGH SPACE on %s\n", pos);
         return NULL;
     }
     if (get_name(pos, name, ' ') == 84)
